@@ -1,0 +1,195 @@
+:root{
+  --text: #ffffff;
+  --muted: rgba(255,255,255,0.68);
+}
+
+/* Base hero + original layered background */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  color: var(--text);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-image:
+    radial-gradient(circle at 72% 26%, rgba(59,119,255,0.18) 0%, rgba(59,119,255,0.10) 12%, transparent 26%),
+    radial-gradient(circle at 10% 80%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.0) 35%),
+    linear-gradient(120deg, #020617 0%, #00112a 22%, #023267 53%, #023e78 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Animated gradient overlay (moving) */
+.animated-gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.55;               /* strong */
+  mix-blend-mode: overlay;     /* stronger color influence */
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255,85,170,0.85), transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(80,200,255,0.85), transparent 20%),
+    linear-gradient(120deg, rgba(110,69,255,0.95), rgba(33,193,243,0.95));
+  background-size: 500% 500%;
+  animation: gradientShiftBold 10s linear infinite;
+  filter: blur(18px);
+}
+@keyframes gradientShiftBold {
+  0%   { background-position: 0% 50%, 0% 50%, 0% 50%; }
+  25%  { background-position: 30% 80%, 60% 20%, 50% 100%; }
+  50%  { background-position: 100% 50%, 100% 50%, 100% 50%; }
+  75%  { background-position: 60% 10%, 30% 80%, 50% 0%; }
+  100% { background-position: 0% 50%, 0% 50%, 0% 50%; }
+}
+
+
+/* soft bright blurred spot */
+.soft-spot {
+  position: absolute;
+  right: -6%;
+  top: -10%;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(58,119,255,0.18) 0%, rgba(0,0,0,0) 35%);
+  filter: blur(60px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* vignette to darken edges */
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.0) 45%, rgba(0,0,0,0.55) 100%);
+}
+
+.hero-header {
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 48px;
+}
+
+/* logo group */
+.logo {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.site-logo {
+  width: 56px;   /* adjust this to resize the logo */
+  height: 56px;
+  object-fit: contain;
+  display: block;
+}
+.brand {
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  font-size: 18px;
+  color: #ffffff;
+}
+
+/* top-right icons */
+.top-icons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  text-decoration: none;
+}
+.social-icon {
+  font-size: 18px;
+  color: rgba(255,255,255,0.95);
+  transition: transform .14s ease, color .14s ease;
+}
+.icon-link:hover .social-icon {
+  transform: scale(1.08);
+  color: #f6f6f6;
+}
+
+/* main content */
+.hero-content {
+  z-index: 6;
+  max-width: 980px;
+  padding: 72px 48px;
+  margin-left: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-title {
+  font-size: clamp(36px, 7.5vw, 72px);
+  line-height: 0.95;
+  margin: 0 0 18px 0;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.hero-title .line-2 strong { font-weight: 800; }
+
+.hero-sub {
+  color: rgba(255,255,255,0.78);
+  font-size: clamp(14px,2.2vw,18px);
+  margin-bottom: 28px;
+  max-width: 760px;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.btn {
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.btn-primary {
+  background: #ffffff;
+  color: #061223;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.28);
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 18px 32px rgba(0,0,0,0.36); }
+
+.btn-outline {
+  background: transparent;
+  color: rgba(255,255,255,0.95);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding-left: 26px;
+  padding-right: 26px;
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+
+.btn-outline:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+}
+
+/* responsive adjustments */
+@media (max-width: 720px) {
+  .hero-header { padding: 20px; }
+  .hero-content { padding: 40px 20px; margin-left: 0; }
+  .hero-title { font-size: 32px; line-height: 1.02 }
+}
