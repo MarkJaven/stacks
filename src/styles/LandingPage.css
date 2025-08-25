@@ -1,6 +1,14 @@
-:root{
+:root {
   --text: #ffffff;
   --muted: rgba(255,255,255,0.68);
+}
+
+/* Import Hando Trial */
+@font-face {
+  font-family: 'Hando Trial';
+  src: url('../assets/fonts/HandoTrial-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 /* Base hero + original layered background */
@@ -11,7 +19,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
   background-image:
     radial-gradient(circle at 72% 26%, rgba(59,119,255,0.18) 0%, rgba(59,119,255,0.10) 12%, transparent 26%),
     radial-gradient(circle at 10% 80%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.0) 35%),
@@ -27,8 +35,8 @@
   inset: 0;
   z-index: 4;
   pointer-events: none;
-  opacity: 0.55;               /* strong */
-  mix-blend-mode: overlay;     /* stronger color influence */
+  opacity: 0.55;
+  mix-blend-mode: overlay;
   background:
     radial-gradient(circle at 10% 10%, rgba(255,85,170,0.85), transparent 20%),
     radial-gradient(circle at 90% 80%, rgba(80,200,255,0.85), transparent 20%),
@@ -44,7 +52,6 @@
   75%  { background-position: 60% 10%, 30% 80%, 50% 0%; }
   100% { background-position: 0% 50%, 0% 50%, 0% 50%; }
 }
-
 
 /* soft bright blurred spot */
 .soft-spot {
@@ -73,69 +80,71 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 28px 48px;
+  padding: 32px 56px; /* bigger spacing */
 }
 
 /* logo group */
 .logo {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   align-items: center;
 }
 .site-logo {
-  width: 56px;   /* adjust this to resize the logo */
-  height: 56px;
+  width: 64px;   /* bigger logo */
+  height: 64px;
   object-fit: contain;
   display: block;
 }
 .brand {
-  font-weight: 600;
-  letter-spacing: 0.1px;
-  font-size: 18px;
+  font-family: 'Hando Trial', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  font-size: 22px; /* bigger brand name */
   color: #ffffff;
 }
 
 /* top-right icons */
 .top-icons {
   display: flex;
-  gap: 10px;
+  gap: 14px;
   align-items: center;
 }
 .icon-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.03);
+  width: 42px;   /* larger icon button */
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
   text-decoration: none;
 }
 .social-icon {
-  font-size: 18px;
+  font-size: 22px; /* bigger icons */
   color: rgba(255,255,255,0.95);
   transition: transform .14s ease, color .14s ease;
 }
 .icon-link:hover .social-icon {
-  transform: scale(1.08);
+  transform: scale(1.12);
   color: #f6f6f6;
 }
 
 /* main content */
 .hero-content {
   z-index: 6;
-  max-width: 980px;
-  padding: 72px 48px;
-  margin-left: 14px;
+  max-width: 1000px; /* wider container */
+  padding: 84px 56px; /* more breathing room */
+  margin-left: 18px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .hero-title {
-  font-size: clamp(36px, 7.5vw, 72px);
-  line-height: 0.95;
-  margin: 0 0 18px 0;
+  font-family: 'Hando Trial', sans-serif;
+  font-size: clamp(44px, 8vw, 84px); /* bigger title */
+  line-height: 1;
+  margin: 0 0 22px 0;
   font-weight: 700;
   color: #ffffff;
 }
@@ -143,20 +152,23 @@
 .hero-title .line-2 strong { font-weight: 800; }
 
 .hero-sub {
-  color: rgba(255,255,255,0.78);
-  font-size: clamp(14px,2.2vw,18px);
-  margin-bottom: 28px;
-  max-width: 760px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: rgba(255,255,255,0.82);
+  font-size: clamp(16px, 2.4vw, 20px); /* slightly larger text */
+  margin-bottom: 34px;
+  max-width: 820px;
 }
 
 .hero-ctas {
   display: flex;
-  gap: 16px;
+  gap: 20px;
   align-items: center;
 }
 
 .btn {
-  padding: 12px 22px;
+  font-family: 'Hando Trial', sans-serif;
+  padding: 14px 28px; /* bigger buttons */
+  font-size: 1.1rem;
   border-radius: 999px;
   font-weight: 600;
   cursor: pointer;
@@ -170,26 +182,24 @@
   box-shadow: 0 8px 20px rgba(0,0,0,0.28);
   transition: transform .14s ease, box-shadow .14s ease;
 }
-
 .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 18px 32px rgba(0,0,0,0.36); }
 
 .btn-outline {
   background: transparent;
   color: rgba(255,255,255,0.95);
-  border: 1px solid rgba(255,255,255,0.18);
-  padding-left: 26px;
-  padding-right: 26px;
+  border: 1px solid rgba(255,255,255,0.22);
+  padding-left: 30px;
+  padding-right: 30px;
   transition: transform .14s ease, box-shadow .14s ease;
 }
-
 .btn-outline:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+  box-shadow: 0 14px 26px rgba(0,0,0,0.2);
 }
 
 /* responsive adjustments */
 @media (max-width: 720px) {
   .hero-header { padding: 20px; }
   .hero-content { padding: 40px 20px; margin-left: 0; }
-  .hero-title { font-size: 32px; line-height: 1.02 }
+  .hero-title { font-size: 36px; line-height: 1.02 }
 }
