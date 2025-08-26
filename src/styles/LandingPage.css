@@ -16,7 +16,6 @@
   min-height: 100vh;
   position: relative;
   color: var(--text);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   font-family: 'Helvetica Neue', Arial, sans-serif;
