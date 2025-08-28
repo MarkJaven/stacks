@@ -1,14 +1,15 @@
 // src/pages/LandingPage.jsx
 import React, { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaInstagram, FaTelegramPlane } from "react-icons/fa";
 import stacksLogo from "../images/stacks-logo.png";
 import "../styles/LandingPage.css";
 import SignUpForm from "../components/SignUpForm";
 import LoginForm from "../components/LoginForm";
-import ForgotForm from "../components/ForgotForm";
 import ResetForm from "../components/ResetForm";
 import Modal from "../components/Modal";
+import { useAuth } from "../contexts/AuthContext";
 
 const pageVariants = { hidden: {}, show: { transition: { staggerChildren: 0.12 } } };
 
@@ -20,12 +21,21 @@ const fadeUp = {
 const fadeIn = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.6 } } };
 
 export default function LandingPage() {
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isForgotOpen, setIsForgotOpen] = useState(false);
   const [isResetOpen, setIsResetOpen] = useState(false);
   const turbRef = useRef(null);
   const rafRef = useRef(null);
+
+  // If user is already logged in, redirect to home
+  useEffect(() => {
+    if (currentUser) {
+      console.log('User already logged in, redirecting to home...');
+      navigate("/home");
+    }
+  }, [currentUser, navigate]);
 
   // Subtle noise animation
   useEffect(() => {
@@ -46,6 +56,23 @@ export default function LandingPage() {
     rafRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(rafRef.current);
   }, []);
+
+  const handleGetStarted = () => {
+    console.log("Get Started clicked");
+    setIsSignUpOpen(true);
+  };
+
+  // Don't render landing page content if user is already logged in
+  if (currentUser) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Redirecting to your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -114,15 +141,12 @@ export default function LandingPage() {
           </motion.p>
           <motion.div className="hero-ctas" variants={fadeUp} style={{ alignItems: "center" }}>
             <motion.button
-               className="btn btn-primary"
-                onClick={() => { 
-                  console.log("Get Started clicked"); 
-                  setIsSignUpOpen(true);
-                }}
-                whileHover={{ y: -3, scale: 1.01 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                >
+              className="btn btn-primary"
+              onClick={handleGetStarted}
+              whileHover={{ y: -3, scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
               Get Started
             </motion.button>
             <motion.button
@@ -138,7 +162,7 @@ export default function LandingPage() {
         </main>
       </motion.section>
 
-       {/* Sign Up Modal */}
+      {/* Sign Up Modal */}
       <Modal isOpen={isSignUpOpen} onClose={() => setIsSignUpOpen(false)}>
         <SignUpForm
           onClose={() => setIsSignUpOpen(false)}
@@ -159,21 +183,6 @@ export default function LandingPage() {
           }}
           onForgotPassword={() => {
             setIsLoginOpen(false);
-            setIsForgotOpen(true);
-          }}
-        />
-      </Modal>
-
-      {/* Forgot Modal */}
-      <Modal isOpen={isForgotOpen} onClose={() => setIsForgotOpen(false)}>
-        <ForgotForm
-          onClose={() => setIsForgotOpen(false)}
-          onBackToLogin={() => {
-            setIsForgotOpen(false);
-            setIsLoginOpen(true);
-          }}
-          onSubmit={() => {
-            setIsForgotOpen(false);
             setIsResetOpen(true);
           }}
         />
@@ -188,8 +197,6 @@ export default function LandingPage() {
           }}
         />
       </Modal>
-
-
     </>
   );
 }
