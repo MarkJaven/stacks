@@ -17,7 +17,7 @@ const PasswordValidator = ({ password, showRules = true }) => {
     {
       id: 'special',
       text: 'At least one special character (!@#$%^&*)',
-      isValid: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
+      isValid: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)
     }
   ];
 
