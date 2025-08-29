@@ -1,36 +1,35 @@
 // src/firebase.js
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDQUnjIb1FVTJQS1VIdn57xPQsM4O4aw10",
-  authDomain: "stacks-56629.firebaseapp.com",
-  projectId: "stacks-56629",
-  storageBucket: "stacks-56629.firebasestorage.app",
-  messagingSenderId: "135309363197",
-  appId: "1:135309363197:web:fbab32677a59fa0d913b94",
-  measurementId: "G-FMMFNDHCPX"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase app once (safe with Next.js hot reload / SSR)
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-// Initialize Analytics (may throw in non-browser environments)
-let analytics;
-try {
-  analytics = getAnalytics(app);
-} catch (err) {
-  // analytics initialization can fail in some environments (SSR/test).
-  // We silently ignore so the rest of Firebase still works.
-  // console.warn("Firebase analytics not initialized:", err);
-}
-
+// Auth + Firestore exports
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export { analytics };
+
+// Analytics: only initialize in the browser to avoid SSR errors
+export async function getAnalyticsIfAllowed() {
+  if (typeof window === "undefined") return null;
+  try {
+    const { getAnalytics } = await import("firebase/analytics");
+    return getAnalytics(app);
+  } catch (err) {
+    // Analytics may fail in some environments — ignore silently
+    return null;
+  }
+}
+
 export default app;
