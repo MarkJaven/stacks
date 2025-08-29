@@ -4,6 +4,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
+  //apiKey: "AIzaSyDQUnjIb1FVTJQS1VIdn57xPQsM4O4aw10", // <-- paste your real key here for test
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
@@ -13,23 +14,15 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase app once (safe with Next.js hot reload / SSR)
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-
-// Auth + Firestore exports
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-
-// Analytics: only initialize in the browser to avoid SSR errors
-export async function getAnalyticsIfAllowed() {
-  if (typeof window === "undefined") return null;
-  try {
-    const { getAnalytics } = await import("firebase/analytics");
-    return getAnalytics(app);
-  } catch (err) {
-    // Analytics may fail in some environments — ignore silently
-    return null;
-  }
+// quick runtime check (masked) — safe to leave for debugging, remove in prod if you want
+if (typeof window !== "undefined") {
+  const k = process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "undefined";
+  console.log("FIREBASE KEY LOADED:", k === "undefined" ? k : `${k.slice(0,6)}...${k.slice(-4)}`);
 }
 
+// Initialize (safe for Next.js)
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+
+export const auth = getAuth(app);
+export const db = getFirestore(app);
 export default app;
